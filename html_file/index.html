@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Contact V3</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/main1.css">
+
+<!--===============================================================================================-->
+</head>
+<body>
+
+	<div class="bg-contact3" style="background-image: url('images/bg-01.jpg');">
+		<div class="container-form">
+			<div class="wrap">
+				<form autocomplete="off" class="contact3-form validate-form">
+					<span class="form-title">
+						Find your courses
+					</span>
+
+					<div class="parent_div">
+						<div class="child_div">
+							<div class="autocomplete wrap-input3 validate-input" data-validate="Name is required">
+								<input class="courseDone input3" type="text" name="name" placeholder="Courses done">
+								<span class="focus-input3"></span>
+							</div>
+							<input class="btn btn-danger deleteButton" type="button" value="-" />
+						</div>
+					</div>
+					<input class="btn btn-success " type="button" id="create_button" value="+" />
+					<div class="wrap-input3 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input3" type="text" name="email" placeholder="Your Email">
+						<span class="focus-input3"></span>
+					</div>
+
+					<div class="wrap-input3 input3-select">
+						<div>
+							<select class="selection-2" onChange="changeSearch(this)" id="search-type" name="search-type">
+								<option value="faculty">Search by Faculty</option>
+								<option value="subjectArea">Search by Subject Area</option>
+							</select>
+						</div>
+						<span class="focus-input3"></span>
+					</div>
+
+
+					<div class="autocomplete wrap-input3 validate-input" data-validate="Name is required">
+						<input id="search_input" class="input3" type="text" name="search_input" placeholder="Search by Faculty">
+						<span class="focus-input3"></span>
+					</div>
+
+
+					<div class="container-contact3-form-btn">
+						<button class="contact3-form-btn">
+							Submit
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+    <script src="js/courses.js"></script>
+    <script src="js/subjectArea.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+	autocomplete(document.getElementsByClassName("courseDone")[0], courses);
+
+    autocomplete(document.getElementById("search_input"), subjectArea);
+    //changeSearch(document.getElementById("search-type"))
+    </script>
+	<script src="vendor/select2/select2.min.js"></script>
+	<script>
+		$(".selection-2").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect1')
+		});
+	</script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-23581568-13');
+</script>
+
+</body>
+</html>
