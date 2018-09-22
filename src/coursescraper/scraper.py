@@ -80,15 +80,15 @@ def main():
 
 
                             # class enrolment
-                            classutilpage = get_html(classutil_url.format(course_code[:4]))
-                            utilsoup = bs(classutilpage, 'html.parser')
-                            print(utilsoup.find('a', name=course_code))                        
-
+                            classutilpage = str(get_html(classutil_url.format(course_code[:4])))
+                            m = re.search(r'(name=\"{0}(.+?)(<td>).+?<td>.+?(.+?)(</td><td>).+?(</td><td>).+?(</td><td>)(.+?)(</td>).+?(cu00))'.format(course_code), classutilpage)
+                            if m is not None:
+                                #print(m.group(0))
+                                print(m.group(8))
+                                enrcap = (str(m.group(8))).split("/")
+                                courseinfo[currarea][course_code]["capacity"] = enrcap[1]
+                            
                             print(courseinfo[currarea][course_code])
-                            courses += 1
-                            if courses > 1 and courses % 10 == 0:
-                                with open("../../data/courseinfo.json", "w")  as f:
-                                    json.dump(courseinfo, f)
 
                     time.sleep(1)
     
