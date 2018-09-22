@@ -79,7 +79,7 @@
 
         $(thisAlert).removeClass('alert-validate');
     }
-
+    $("#create_button").unbind('click');
     $('#create_button').click(function() {
         var html = $('.child_div:first').parent().html();
         $(html).insertBefore(this);
