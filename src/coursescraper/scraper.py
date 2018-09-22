@@ -23,6 +23,11 @@ def main():
         if arealink is not None  and ".html" in arealink and len(arealink) <  14:
             groupsoup = bs(get_html(root+arealink), 'html.parser')
             currarea = arealink[:-5]
+            if currarea in courseinfo:
+                break
+            if currarea != "COMPKENS":
+                continue
+
             print("GROUP: " + currarea)
             if currarea != "COMPKENS":
                 continue            
@@ -32,14 +37,14 @@ def main():
                     if course is not None and len(course) < 14:
                         
                         courselink = course.get('href')
-                        if courselink is not None and ".html" in courselink and len(courselink) < 14:                            
+                        if courselink is not None and ".html" in courselink and len(courselink) < 14:
                             course_code = courselink[:-5]
                             if course_code in courseinfo[currarea]:
                                 continue
                             print(course_code)
                             courseinfo[currarea][course_code] = {}
-                            coursetimetable = str(get_html(root+courselink))                            
-                            
+                            coursetimetable = str(get_html(root+courselink))
+
 
                             # Semesters
                             courseinfo[currarea][course_code]["available_sems"] = []
@@ -71,7 +76,7 @@ def main():
                                     m2 = re.findall(r"\s\w{4}\d{4}", str(m.group(0)))
                                     for prereqMatches in m2:
                                         courseinfo[currarea][course_code]["prereqs"].append(str(prereqMatches).strip())
-                            
+
                             #excluded courses
                             courseinfo[currarea][course_code]["excluded"] = []
                             handbooksoup = bs(coursepageraw, 'html.parser')
@@ -109,14 +114,14 @@ def main():
 
                             courseinfo[currarea][course_code]["id"] = course_code
                             print(courseinfo[currarea][course_code])
-                            
+
                             courses += 1
                             if courses > 1 and courses % 10 == 0:
                                 with open("../../data/{0}.json".format(outfile), "w")  as f:
                                     json.dump(courseinfo, f)
 
                     time.sleep(1)
-    
+
     print("Finished")
     with open("../../data/{0}.json".format(outfile), "w")  as f:
         json.dump(courseinfo, f)
