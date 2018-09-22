@@ -19,36 +19,23 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/main1.css">
+
 <!--===============================================================================================-->
 </head>
 <body>
 
 	<div class="bg-contact3" style="background-image: url('images/bg-01.jpg');">
-		<div class="container-contact3">
-			<div class="wrap-contact3">
-				<form class="contact3-form validate-form">
-					<span class="contact3-form-title">
-						Contact Us
+		<div class="container-form">
+			<div class="wrap">
+				<form autocomplete="off" class="contact3-form validate-form">
+					<span class="form-title">
+						Find your courses
 					</span>
 
-					<div class="wrap-contact3-form-radio">
-						<div class="contact3-form-radio m-r-42">
-							<input class="input-radio3" id="radio1" type="radio" name="choice" value="say-hi" checked="checked">
-							<label class="label-radio3" for="radio1">
-								Say Hi
-							</label>
-						</div>
 
-						<div class="contact3-form-radio">
-							<input class="input-radio3" id="radio2" type="radio" name="choice" value="get-quote">
-							<label class="label-radio3" for="radio2">
-								Get a Quote
-							</label>
-						</div>
-					</div>
-
-					<div class="wrap-input3 validate-input" data-validate="Name is required">
-						<input class="input3" type="text" name="name" placeholder="Your Name">
+					<div class="autocomplete wrap-input3 validate-input" data-validate="Name is required">
+						<input id="myInput" class="input3" type="text" name="name" placeholder="By faculty">
 						<span class="focus-input3"></span>
 					</div>
 
@@ -105,6 +92,11 @@
 	<script src="vendor/bootstrap/js/popper.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
+    <script src="js/courses.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+    autocomplete(document.getElementById("myInput"), courses);
+    </script>
 	<script src="vendor/select2/select2.min.js"></script>
 	<script>
 		$(".selection-2").select2({
