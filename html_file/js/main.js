@@ -79,13 +79,24 @@
 
         $(thisAlert).removeClass('alert-validate');
     }
-    
+
+    $('#create_button').click(function() {
+        var html = $('.child_div:first').parent().html();
+        $(html).insertBefore(this);
+        for ( var i = 0, l = document.getElementsByClassName("courseDone").length; i < l; i++ ) {
+            autocomplete(document.getElementsByClassName("courseDone")[i],courses)
+        }
+    });
+      
+      $(document).on("click", ".deleteButton", function() {
+          console.log($(this).closest('.child_div'))
+        $(this).closest('.child_div').remove();
+    });
+      
 
 })(jQuery);
-
     /* ========================== AUTO COMPLETE =================== */
     function autocomplete(inp, arr) {
-        console.log("hihihih")
       /*the autocomplete function takes two arguments,
        *   the text field element and an array of possible autocompleted values:*/
       var currentFocus;
@@ -181,3 +192,11 @@
             closeAllLists(e.target);
     });
 }
+    function changeSearch(inp) {
+        //alert(document.getElementByName("search_input")[0].placeholder)
+        if (inp.value == "faculty") {
+            document.getElementById("search_input").placeholder="Faculty"
+        } else if (inp.value == "subjectArea") {
+            document.getElementById("search_input").placeholder="Subject Area"
+        }
+    }
