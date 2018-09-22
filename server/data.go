@@ -16,7 +16,7 @@ type Course struct {
 	Excluded         []string `json:"excluded"`
 	GeneralEducation bool     `json:"GENED"`
 	UOC              int      `json:"UOC"`
-	Slots            int      `json:"slots"`
+	Capacity         []int    `json:"capacity"`
 }
 
 type Filter struct {
@@ -65,7 +65,11 @@ func (c *Course) IsEligible(user *User) bool {
 }
 
 func (c *Course) Score(user *User) int {
-	return c.Slots * (c.NumFulfilled(user) + 1)
+	if len(c.Capacity) == 0 {
+		return 20
+	}
+
+	return c.Capacity[0] * (c.NumFulfilled(user) + 1)
 }
 
 func (u *User) HasCompleted(course string) bool {

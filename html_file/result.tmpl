@@ -33,7 +33,7 @@
 								<tr class="row100 head">
 									<th class="cell100 column1">Course Code</th>
 									<th class="cell100 column2">Course name</th>
-									<th class="cell100 column3">Rating</th>
+									<th class="cell100 column3">Pre-reqs</th>
 									<th class="cell100 column4">Spots</th>
 								</tr>
 							</thead>
@@ -47,8 +47,8 @@
 								<tr class="row100 body">
 									<td class="cell100 column1">{{.ID}}</td>
 									<td class="cell100 column2">{{.Name}}</td>
-									<td class="cell100 column3">6.5</td>
-									<td class="cell100 column4">{{.Slots}}</td>
+									<td class="cell100 column3">{{range .PreReqs}}{{.}}, {{end}}</td>
+									<td class="cell100 column4">{{index .Capacity 0}}</td>
 								</tr>
 								{{end}}
 							</tbody>

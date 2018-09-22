@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"net/http"
 	"os"
@@ -64,6 +65,8 @@ func main() {
 
 			user.Completed = append(user.Completed, strings.Split(val, " ")[0])
 		}
+
+		fmt.Println(c.FormValue("search_input"))
 
 		faculty := strings.Split(c.FormValue("search_input"), ":")[0]
 		facultyFilter := func(c *Course) bool {
