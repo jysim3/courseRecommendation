@@ -13,6 +13,7 @@ def main():
     classutil_url = "http://classutil.unsw.edu.au/{0}_{1}.html"
     handbookroot = "https://www.handbook.unsw.edu.au/{0}/courses/" + str(sys.argv[1]) + "/"
     soup = bs(get_html(root + "subjectSearch.html"), 'html.parser')
+    outfile = sys.argv[2]
 
     courseinfo = {}
     courses = 0
@@ -23,13 +24,18 @@ def main():
             groupsoup = bs(get_html(root+arealink), 'html.parser')
             currarea = arealink[:-5]
             print("GROUP: " + currarea)
+            if currarea != "COMPKENS":
+                continue            
             courseinfo[currarea] = {}
             if groupsoup is not None:
                 for course in groupsoup.find_all('a'):
                     if course is not None and len(course) < 14:
+                        
                         courselink = course.get('href')
                         if courselink is not None and ".html" in courselink and len(courselink) < 14:                            
                             course_code = courselink[:-5]
+                            if course_code in courseinfo[currarea]:
+                                continue
                             print(course_code)
                             courseinfo[currarea][course_code] = {}
                             coursetimetable = str(get_html(root+courselink))                            
@@ -67,15 +73,14 @@ def main():
                                         courseinfo[currarea][course_code]["prereqs"].append(str(prereqMatches).strip())
                             
                             #excluded courses
-                            # handbooksoup = bs(coursepageraw, 'html.parser')
-                            # ex2 = handbooksoup.find(id="exclusion-rules")
-                            # print(ex2)
-                            # excluded = handbooksoup.find_all('div', attrs={"id":"exclusion-rules"})
-                            # print("Excluded:")
-                            # for ex in excluded:
-                            #     pass
-                            #     #print(ex)
-                            # print("End excluded")
+                            courseinfo[currarea][course_code]["excluded"] = []
+                            handbooksoup = bs(coursepageraw, 'html.parser')
+                            ex1 = handbooksoup.find(id="exclusion-rules")
+                            if ex1 is not None:
+                                for ex2 in ex1.find_all('a'):
+                                    excourse = ex2.get('href')[-11:-3:1]
+                                    print(excourse)
+                                    courseinfo[currarea][course_code]["excluded"].append(excourse)
 
                             # Units of credits
                             if "6 Units of Credit" in coursepage:
@@ -94,25 +99,26 @@ def main():
                             courseinfo[currarea][course_code]["capacity"] = []
                             for i in range(4):
                                 classutilpage = str(get_html(classutil_url.format(course_code[:4], utilterms[i])))
-                                m = re.search(r'(name=\"{0}(.+?)(<td>).+?<td>.+?(.+?)(</td><td>).+?(</td><td>).+?(</td><td>)(.+?)(</td>).+?(cu00))'.format(course_code), classutilpage)
+                                m = re.search(r'(name=\"{0}.+?center>(.+?)</td></tr>.+?(<td>)(.+?)<td>(.+?)(</td><td>).+?(</td><td>).+?(</td><td>)(.+?)(</td>).+?(cu00))'.format(course_code), classutilpage)
                                 if m is not None:
                                     #print(m.group(0))
                                     #print(m.group(8))
-                                    enrcap = (str(m.group(8))).split("/")
+                                    enrcap = (str(m.group(9))).split("/")
                                     courseinfo[currarea][course_code]["capacity"].append(int(enrcap[1]))
-                            
+                                    courseinfo[currarea][course_code]["name"] = str(m.group(2))
+
                             courseinfo[currarea][course_code]["id"] = course_code
                             print(courseinfo[currarea][course_code])
                             
                             courses += 1
                             if courses > 1 and courses % 10 == 0:
-                                with open("../../data/courseinfo.json", "w")  as f:
+                                with open("../../data/{0}.json".format(outfile), "w")  as f:
                                     json.dump(courseinfo, f)
 
                     time.sleep(1)
     
     print("Finished")
-    with open("../../data/courseinfo.json", "w")  as f:
+    with open("../../data/{0}.json".format(outfile), "w")  as f:
         json.dump(courseinfo, f)
 
 
