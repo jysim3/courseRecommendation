@@ -79,11 +79,13 @@
 
         $(thisAlert).removeClass('alert-validate');
     }
+
     $("#create_button").unbind('click');
     $('#create_button').click(function() {
         var html = $('.child_div:first').parent().html();
         $(html).insertBefore(this);
         for ( var i = 0, l = document.getElementsByClassName("courseDone").length; i < l; i++ ) {
+            document.getElementsByClassName("courseDone")[i].name = "course" + i
             autocomplete(document.getElementsByClassName("courseDone")[i],courses)
         }
     });
