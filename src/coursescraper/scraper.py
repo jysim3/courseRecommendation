@@ -10,6 +10,7 @@ terms = ["SUMMER TERM", "SEMESTER ONE", "SEMESTER TWO", "SEMESTER THREE"]
 def main():
 
     root = str("http://timetable.unsw.edu.au/" + str(sys.argv[1]) + "/")
+    classutil_url = "http://classutil.unsw.edu.au/{0}_T1.html"
     handbookroot = "https://www.handbook.unsw.edu.au/{0}/courses/" + str(sys.argv[1]) + "/"
     soup = bs(get_html(root + "subjectSearch.html"), 'html.parser')
 
@@ -76,6 +77,10 @@ def main():
                                 courseinfo[currarea][course_code]["GENED"] = True
                             else:
                                 courseinfo[currarea][course_code]["GENED"] = False
+
+
+                            # class enrolment
+                            classutilpage = get_html(classutil_url.format(course_code[:4]), 'html.parser')
 
                             print(courseinfo[currarea][course_code])
                             courses += 1
