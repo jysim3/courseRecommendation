@@ -80,7 +80,9 @@ def main():
 
 
                             # class enrolment
-                            classutilpage = get_html(classutil_url.format(course_code[:4]), 'html.parser')
+                            classutilpage = get_html(classutil_url.format(course_code[:4]))
+                            utilsoup = bs(classutilpage, 'html.parser')
+                            print(utilsoup.find('a', name=course_code))                        
 
                             print(courseinfo[currarea][course_code])
                             courses += 1
