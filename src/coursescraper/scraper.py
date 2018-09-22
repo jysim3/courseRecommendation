@@ -89,6 +89,10 @@ def main():
                                 courseinfo[currarea][course_code]["capacity"] = enrcap[1]
                             
                             print(courseinfo[currarea][course_code])
+                            courses += 1
+                            if courses > 1 and courses % 10 == 0:
+                                with open("../../data/courseinfo.json", "w")  as f:
+                                    json.dump(courseinfo, f)
 
                     time.sleep(1)
     
