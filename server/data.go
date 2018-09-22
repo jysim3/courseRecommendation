@@ -5,11 +5,12 @@ import (
 )
 
 type AllCourses struct {
-	Courses map[string]Course
+	Courses map[string]*Course
 }
 
 type Course struct {
 	ID               string   `json:"id"`
+	Name             string   `json:"name"`
 	AvailableSems    []int    `json:"available_sems"`
 	PreReqs          []string `json:"prereqs"`
 	Excluded         []string `json:"excluded"`
@@ -37,7 +38,7 @@ func (c *Course) Fulfilled(user *User) bool {
 func (c *Course) NumFulfilled(user *User) int {
 	count := 0
 	for _, course := range c.PreReqs {
-		if u.HasCompleted(course) {
+		if user.HasCompleted(course) {
 			count++
 		}
 	}
@@ -46,12 +47,12 @@ func (c *Course) NumFulfilled(user *User) int {
 }
 
 func (c *Course) HasExcluded(user *User) bool {
-	if u.HasCompleted(c.ID) {
+	if user.HasCompleted(c.ID) {
 		return true
 	}
 
 	for _, course := range c.Excluded {
-		if u.HasCompleted(course) {
+		if user.HasCompleted(course) {
 			return true
 		}
 	}
@@ -64,7 +65,7 @@ func (c *Course) IsEligible(user *User) bool {
 }
 
 func (c *Course) Score(user *User) int {
-	return eligible[i].Slots * (eligible[i].NumFulfilled(user) + 1)
+	return c.Slots * (c.NumFulfilled(user) + 1)
 }
 
 func (u *User) HasCompleted(course string) bool {
